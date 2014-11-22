@@ -1,5 +1,6 @@
 /*! Unobtrusive Slider Control / HTML5 Input Range polyfill - MIT/GPL2 @freqdec */
 /*jshint sub:true, evil:true, boss:true */
+/* fix (properly compare numeric values) in #setInputValue by metaflop/alexis reigel */
 var fdSlider = (function() {
     var sliders           = {},
         uniqueid          = 0,
@@ -1044,7 +1045,8 @@ var fdSlider = (function() {
                 if(val !== "" && !userInput) {
                     val = (min + (Math.round((+val - min) / step) * step)).toFixed(precision);
                 }
-                if(inp.value === val) {
+                /* fix (properly compare numeric values) by metaflop/alexis reigel */
+                if(inp.value === val || parseFloat(inp.value) == parseFloat(val)) {
                     updateAriaValues();
                     return;
                 }
